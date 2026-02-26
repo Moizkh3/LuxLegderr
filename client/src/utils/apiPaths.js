@@ -1,4 +1,4 @@
-export const BASE_URL = "https://lux-ledger-chi.vercel.app";
+export const BASE_URL = "https://lux-legderr.vercel.app";
 
 //utils/apiPaths.js
 export const API_PATHS = {
@@ -14,9 +14,9 @@ export const API_PATHS = {
         ADD_INCOME: "/api/v1/income/add",
         GET_ALL_INCOME: "/api/v1/income/get",
         DELETE_INCOME: (incomeId) => `/api/v1/income/${incomeId}`,
-        DOWNLOAD_INCOME: `/api/v1/income/downloadexcel`,  
+        DOWNLOAD_INCOME: `/api/v1/income/downloadexcel`,
     },
-    EXPENSE:{
+    EXPENSE: {
         ADD_EXPENSE: "/api/v1/expense/add",
         GET_ALL_EXPENSE: "/api/v1/expense/get",
         DELETE_EXPENSE: (expenseId) => `/api/v1/expense/${expenseId}`,
