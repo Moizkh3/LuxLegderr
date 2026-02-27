@@ -22,19 +22,10 @@ app.use(cors());
 
 app.use(express.json());
 
-// Connect to MongoDB lazily per request (safe for Vercel serverless).
-// connectDB() reuses an existing connection if already open.
-app.use(connectDB());
-
 // Health-check route — required so visiting "/" doesn't return "Cannot GET /"
 app.get("/", (req, res) => {
     res.status(200).json({ status: "Server is live 🚀" });
 });
-
-app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/income", incomeRoutes);
-app.use("/api/v1/expense", expenseRoutes);
-app.use("/api/v1/dashboard", dashboardRoutes);
 
 // Only serve the uploads folder when running locally (Vercel filesystem is read-only)
 if (process.env.NODE_ENV !== "production") {
@@ -46,12 +37,23 @@ if (process.env.NODE_ENV !== "production") {
     app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 }
 
-// Start the server only when running locally.
-// On Vercel, the app is exported below and Vercel handles the server lifecycle.
-if (process.env.NODE_ENV !== "production") {
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+
+async function startServer() {
+    await connectDB();
+
+    app.use("/api/v1/auth", authRoutes);
+    app.use("/api/v1/income", incomeRoutes);
+    app.use("/api/v1/expense", expenseRoutes);
+    app.use("/api/v1/dashboard", dashboardRoutes);
+
+    if (process.env.NODE_ENV !== "production") {
+        const PORT = process.env.PORT || 5000;
+        app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+    }
 }
+
+startServer();
+
 
 // Export app for Vercel serverless deployment
 export default app;
