@@ -24,15 +24,7 @@ app.use(express.json());
 
 // Connect to MongoDB lazily per request (safe for Vercel serverless).
 // connectDB() reuses an existing connection if already open.
-app.use(async (req, res, next) => {
-    try {
-        await connectDB();
-        next();
-    } catch (err) {
-        console.error("DB connection failed:", err.message);
-        res.status(503).json({ message: "Database unavailable. Please try again." });
-    }
-});
+app.use(connectDB());
 
 // Health-check route — required so visiting "/" doesn't return "Cannot GET /"
 app.get("/", (req, res) => {
