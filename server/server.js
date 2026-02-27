@@ -18,12 +18,7 @@ const app = express();
 
 // Middleware to handle CORS
 // Note: Do NOT include "*" wildcard when credentials: true is set — browsers will block it
-app.use(cors({
-    origin: [process.env.CLIENT_URL, "http://localhost:5173"].filter(Boolean),
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true
-}));
+app.use(cors());
 
 app.use(express.json());
 
